@@ -1,0 +1,6 @@
+<div id="upload-picture-container">
+  <%= form_for @image, html: {multipart: true, id: 'upload-picture'} do |f| %>
+    <%= f.file_field :file %>
+    <div class="message">Click to upload file</div>
+  <% end %>
+</div>
