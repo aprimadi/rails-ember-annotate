@@ -11,6 +11,7 @@ Rails.application.routes.draw do
   #   get 'products/:id/purchase' => 'catalog#purchase', as: :purchase
 
   resources :images
+  resources :annotations
 
   # Example resource route with options:
   #   resources :products do

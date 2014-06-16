@@ -1,11 +1,22 @@
 <div id="canvas" {{bind-attr style=canvasStyle}}>
-  <img {{bind-attr src=fileUrl}}>
+  {{#view App.ClickableArea class="image-container"}}
+    <img {{bind-attr src=fileUrl}}>
+    {{#each annotations}}
+      <div class="annotation" {{bind-attr style=annotationStyle}}>{{text}}</div>
+    {{/each}}
+  {{/view}}
 </div>
 <div id="toolbar">
-  <button type="button" class="btn btn-default btn-lg" data-toggle="tooltip" title="Highlight">
+  <button type="button" class="btn btn-default btn-lg"
+          data-toggle="tooltip" title="Highlight"
+    {{bind-attr class="inHighlightMode:active inHighlightMode:btn-primary"}}
+    {{action "toggleHighlightMode"}}>
     <span class="glyphicon glyphicon-plus"></span>
   </button>
-  <button type="button" class="btn btn-default btn-lg" data-toggle="tooltip" title="Annotate">
+  <button type="button" class="btn btn-default btn-lg"
+          data-toggle="tooltip" title="Annotate"
+    {{bind-attr class="inAnnotateMode:active inAnnotateMode:btn-primary"}}
+    {{action "toggleAnnotateMode"}}>
     <span class="glyphicon glyphicon-font"></span>
   </button>
 </div>

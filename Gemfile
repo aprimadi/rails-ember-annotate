@@ -3,7 +3,8 @@ source 'https://rubygems.org'
 gem 'rails', '4.1.0'
 
 # Storage
-gem 'mongo_mapper'
+#gem 'mongo_mapper'
+gem 'mongoid'
 
 # Serializer
 gem 'active_model_serializers'

@@ -12,7 +12,7 @@ class ImagesController < ApplicationController
     @image = Image.find(params[:id])
     respond_to do |format|
       format.html
-      format.json { render :json => @image, :serializer => ImageSerializer }
+      format.json { render json: @image, serializer: ImageSerializer }
     end
   end
 

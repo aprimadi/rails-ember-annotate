@@ -57,6 +57,7 @@ GEM
       execjs
     coffee-script-source (1.7.0)
     commonjs (0.2.7)
+    durran-validatable (2.0.1)
     ember-data-source (1.0.0.beta.7)
       ember-source
     ember-rails (0.15.0)
@@ -79,6 +80,7 @@ GEM
       railties (>= 3.0, < 5.0)
       thor (>= 0.14, < 2.0)
     json (1.8.1)
+    leshill-will_paginate (2.3.11)
     less (2.5.1)
       commonjs (~> 0.2.7)
     less-rails (2.5.0)
@@ -101,6 +103,11 @@ GEM
       activesupport (>= 3.0)
       mongo (~> 1.8)
       plucky (~> 0.6.5)
+    mongoid (1.0.6)
+      activesupport (>= 2.2.2)
+      durran-validatable (>= 2.0.1)
+      leshill-will_paginate (>= 2.3.11)
+      mongo (>= 0.18.2)
     multi_json (1.10.1)
     plucky (0.6.6)
       mongo (~> 1.5)
@@ -165,7 +172,7 @@ DEPENDENCIES
   less-rails
   less-rails-bootstrap
   mini_magick
-  mongo_mapper
+  mongoid
   rails (= 4.1.0)
   spring
   therubyracer

@@ -1,4 +1,6 @@
 class ImageSerializer < ActiveModel::Serializer
+  embed :ids, include: true
+
   attributes :id, :file_url
 
   has_many :annotations
@@ -7,4 +9,5 @@ class ImageSerializer < ActiveModel::Serializer
   def file_url
     object.file.url
   end
+
 end

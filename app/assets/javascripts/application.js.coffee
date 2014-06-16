@@ -12,7 +12,7 @@
 # for more details see: http://emberjs.com/guides/application/
 window.App = Ember.Application.create()
 
-#App.ApplicationAdapter = DS.ActiveModelAdapter.extend({})
+App.ApplicationAdapter = DS.ActiveModelAdapter.extend({})
 
 $(document).ready ->
   # Enable tooltip on mouseenter
