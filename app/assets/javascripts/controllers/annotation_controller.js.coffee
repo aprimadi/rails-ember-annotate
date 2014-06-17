@@ -22,7 +22,11 @@ App.AnnotationController = Ember.ObjectController.extend({
       @set('edit', false)
 
       model = @get('model')
-      model.save()
+      if model.get('text').trim() == ''
+        model.deleteRecord()
+        model.save()
+      else
+        model.save()
   }
 
   onWindowResize: ->

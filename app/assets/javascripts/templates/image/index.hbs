@@ -1,13 +1,20 @@
 <div id="canvas" {{bind-attr style=canvasStyle}}>
-  {{#view App.ClickableArea class="image-container"}}
+  {{#view App.Canvas class="image-container"}}
     <img {{bind-attr src=fileUrl}}>
+
     {{#each annotations itemController="annotation" controllerName="annotations"}}
       {{#if isEditing}}
-        {{input focus-out="acceptChanges" class="annotation" style=annotationStyle value=text}}
+        {{edit-annotation focus-out="acceptChanges" class="annotation" style=annotationStyle value=text}}
       {{else}}
         <div class="annotation" {{bind-attr style=annotationStyle}} {{action "editAnnotation" on="doubleClick"}}>{{text}}</div>
       {{/if}}
     {{/each}}
+
+    {{#each highlights itemController="highlight"}}
+      <div class="highlight" {{bind-attr style=highlightStyle}} {{action "removeHighlight" on="doubleClick"}}></div>
+    {{/each}}
+
+    <div class="highlight-pointer" {{bind-attr style=highlightPointerStyle}} {{bind-attr class="showHighlightPointer::hidden"}}></div>
   {{/view}}
 </div>
 <div id="toolbar">

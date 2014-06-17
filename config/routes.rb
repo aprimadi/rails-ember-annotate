@@ -12,6 +12,7 @@ Rails.application.routes.draw do
 
   resources :images
   resources :annotations
+  resources :highlights
 
   # Example resource route with options:
   #   resources :products do

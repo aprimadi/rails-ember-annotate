@@ -12,6 +12,12 @@ class AnnotationsController < ApplicationController
     render json: @annotation
   end
 
+  def destroy
+    @annotation = Annotation.find(params[:id])
+    @annotation.destroy
+    render json: {}
+  end
+
   protected
 
     def annotation_params
