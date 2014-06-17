@@ -17,8 +17,7 @@ App.HighlightController = Ember.ObjectController.extend({
   actions: {
     removeHighlight: ->
       model = @get('model')
-      model.deleteRecord()
-      model.save()
+      model.destroyRecord()
   }
 
   onWindowResize: ->

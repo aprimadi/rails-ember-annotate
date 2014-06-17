@@ -110,12 +110,6 @@ App.ImageController = Ember.ObjectController.extend({
     @get('toolmode') == 'annotate'
   ).property('toolmode')
 
-  annotations: (->
-    window.model = @get('model')
-    window.store = @store
-    @get('model').get('annotations')
-  ).property('model.annotations')
-
   showHighlightPointer: (() ->
     @get('startDragging')
   ).property('startDragging')

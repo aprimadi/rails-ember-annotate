@@ -3,5 +3,5 @@ App.Canvas = Ember.View.extend({
     @get('controller').send('canvasClicked', e.offsetX, e.offsetY)
 
   mouseMove: (e) ->
-    @get('controller').send('canvasMouseMoved', e.offsetX, e.offsetY)
+    @get('controller').send('canvasMouseMoved', e.clientX, e.clientY)
 })
