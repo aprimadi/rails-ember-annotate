@@ -4,3 +4,12 @@
     <div class="message">Click to upload file</div>
   <% end %>
 </div>
+
+<div class="container-fluid">
+  <div id="image-list">
+    <h2>Images</h2>
+    <% Image.limit(100).all.each do |image| %>
+      <a href="<%= image_path(image) %>"><%= image_tag image.file.url %></a>
+    <% end %>
+  </div>
+</div>
