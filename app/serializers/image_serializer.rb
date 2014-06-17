@@ -9,5 +9,4 @@ class ImageSerializer < ActiveModel::Serializer
   def file_url
     object.file.url
   end
-
 end

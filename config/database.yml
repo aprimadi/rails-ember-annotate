@@ -1,0 +1,27 @@
+development:
+  adapter: mysql2
+  database: rails_ember_annotate_development
+  pool: 5
+  username: root
+  password:
+
+staging:
+  adapter: mysql2
+  database: rails_ember_annotate_staging
+  pool: 5
+  username: root
+  password:
+
+test:
+  adapter: mysql2
+  database: rails_ember_annotate_test
+  pool: 5
+  username: root
+  password:
+
+production:
+  adapter: mysql2
+  database: rails_ember_annotate_production
+  pool: 5
+  username: root
+  password:

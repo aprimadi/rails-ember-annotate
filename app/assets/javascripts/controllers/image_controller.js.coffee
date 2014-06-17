@@ -25,18 +25,20 @@ App.ImageController = Ember.ObjectController.extend({
     left = x / $('#canvas img').width()
     top = y / $('#canvas img').height()
 
-    console.log(left)
-    console.log(top)
+    return if left < 0 || left > 1
+    return if top < 0 || top > 1
 
     # Create annotation
     annotation = @store.createRecord('annotation', {
       image: @get('model'),
-      text: 'Test',
+      text: 'Double click to edit',
       left: left,
       top: top
     })
 
     annotation.save()
+
+    @set('toolmode', null)
 
   onWindowResize: (e) ->
     @computeCanvasHeight()
@@ -60,8 +62,7 @@ App.ImageController = Ember.ObjectController.extend({
   annotations: (->
     window.model = @get('model')
     window.store = @store
-    console.log(@get('model'))
-    []
+    @get('model').get('annotations')
   ).property('model.annotations')
 
   willDestroy: ->

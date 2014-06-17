@@ -14,6 +14,10 @@ window.App = Ember.Application.create()
 
 App.ApplicationAdapter = DS.ActiveModelAdapter.extend({})
 
+Ember.TextField.reopen({
+  attributeBindings: ['style']
+});
+
 $(document).ready ->
   # Enable tooltip on mouseenter
   $('[data-toggle=tooltip]').on 'mouseenter', ->

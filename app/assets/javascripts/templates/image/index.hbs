@@ -1,8 +1,12 @@
 <div id="canvas" {{bind-attr style=canvasStyle}}>
   {{#view App.ClickableArea class="image-container"}}
     <img {{bind-attr src=fileUrl}}>
-    {{#each annotations}}
-      <div class="annotation" {{bind-attr style=annotationStyle}}>{{text}}</div>
+    {{#each annotations itemController="annotation" controllerName="annotations"}}
+      {{#if isEditing}}
+        {{input focus-out="acceptChanges" class="annotation" style=annotationStyle value=text}}
+      {{else}}
+        <div class="annotation" {{bind-attr style=annotationStyle}} {{action "editAnnotation" on="doubleClick"}}>{{text}}</div>
+      {{/if}}
     {{/each}}
   {{/view}}
 </div>
