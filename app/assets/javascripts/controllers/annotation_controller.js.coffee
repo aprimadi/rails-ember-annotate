@@ -79,8 +79,9 @@ App.AnnotationController = Ember.ObjectController.extend({
   annotationStyle: (() ->
     top = @get('computedTop')
     left = @get('computedLeft')
-    return "top: #{top}px; left: #{left}px;"
-  ).property('computedTop', 'computedLeft')
+    zindex = if @get('dragging') then 10000 else 2
+    return "top: #{top}px; left: #{left}px; z-index: #{zindex}"
+  ).property('computedTop', 'computedLeft', 'dragging')
 
   isEditing: (() ->
     @get('edit')

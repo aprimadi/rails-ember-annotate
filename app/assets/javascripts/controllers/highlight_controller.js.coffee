@@ -85,9 +85,10 @@ App.HighlightController = Ember.ObjectController.extend({
     left = @get('computedLeft')
     width = @get('computedWidth')
     height = @get('computedHeight')
+    zindex = if @get('dragging') then 10000 else 1
 
-    return "top: #{top}px; left: #{left}px; width: #{width}px; height: #{height}px;"
-  ).property('computedTop', 'computedLeft', 'computedWidth', 'computedHeight')
+    return "top: #{top}px; left: #{left}px; width: #{width}px; height: #{height}px; z-index: #{zindex}"
+  ).property('computedTop', 'computedLeft', 'computedWidth', 'computedHeight', 'dragging')
 
   willDestroy: ->
     $(window).off("resize.#{@ns()}")
