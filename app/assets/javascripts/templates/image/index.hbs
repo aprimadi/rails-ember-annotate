@@ -3,15 +3,19 @@
     <img {{bind-attr src=fileUrl}}>
 
     {{#each annotations itemController="annotation" controllerName="annotations"}}
-      {{#if isEditing}}
-        {{edit-annotation focus-out="acceptChanges" class="annotation" style=annotationStyle value=text}}
-      {{else}}
-        <div class="annotation" {{bind-attr style=annotationStyle}} {{action "editAnnotation" on="doubleClick"}}>{{text}}</div>
-      {{/if}}
+      {{#view App.Moveable}}
+        {{#if isEditing}}
+          {{edit-annotation focus-out="acceptChanges" class="annotation" style=annotationStyle value=text}}
+        {{else}}
+          <div class="annotation" {{bind-attr style=annotationStyle}} {{action "editAnnotation" on="doubleClick"}}>{{text}}</div>
+        {{/if}}
+      {{/view}}
     {{/each}}
 
     {{#each highlights itemController="highlight"}}
-      <div class="highlight" {{bind-attr style=highlightStyle}} {{action "removeHighlight" on="doubleClick"}}></div>
+      {{#view App.Moveable}}
+        <div class="highlight" {{bind-attr style=highlightStyle}} {{action "removeHighlight" on="doubleClick"}}></div>
+      {{/view}}
     {{/each}}
 
     <div class="highlight-pointer" {{bind-attr style=highlightPointerStyle}} {{bind-attr class="showHighlightPointer::hidden"}}></div>

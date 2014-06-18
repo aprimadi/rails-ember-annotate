@@ -1,4 +1,6 @@
 App.AnnotationController = Ember.ObjectController.extend({
+  needs: 'image'
+
   ns: ->
     guid = Math.random().toString(36).substring(7)
     @_namespace ||= "annotation_controller_#{guid}"
@@ -14,6 +16,9 @@ App.AnnotationController = Ember.ObjectController.extend({
     , 100)
     @computePosition()
 
+    image_controller = @get('controllers.image')
+    image_controller.on('canvasMouseMoved', @, @onCanvasMouseMoved)
+
   actions: {
     editAnnotation: ->
       @set('edit', true)
@@ -27,10 +32,28 @@ App.AnnotationController = Ember.ObjectController.extend({
         model.save()
       else
         model.save()
+
+    mouseDowned: (x, y) ->
+      @set('dragging', true)
+
+    mouseUpped: (x, y) ->
+      @set('dragging', false)
+      @savePosition()
   }
 
   onWindowResize: ->
     @computePosition()
+
+  onCanvasMouseMoved: (x, y) ->
+    if @get('dragging')
+      @set('endDragX', x)
+      @set('endDragY', y)
+      @updatePosition()
+    else
+      @set('origComputedTop', @get('computedTop'))
+      @set('origComputedLeft', @get('computedLeft'))
+      @set('startDragX', x)
+      @set('startDragY', y)
 
   computePosition: ->
     top = @get('top') * $('#canvas img').height()
@@ -38,11 +61,26 @@ App.AnnotationController = Ember.ObjectController.extend({
     @set('computedTop', top)
     @set('computedLeft', left)
 
+  updatePosition: ->
+    top = @get('origComputedTop') + @get('endDragY') - @get('startDragY')
+    left = @get('origComputedLeft') + @get('endDragX') - @get('startDragX')
+    @set('computedTop', top)
+    @set('computedLeft', left)
+
+  savePosition: ->
+    top = @get('computedTop') / $('#canvas img').height()
+    left = @get('computedLeft') / $('#canvas img').width()
+
+    model = @get('model')
+    model.set('top', top)
+    model.set('left', left)
+    model.save()
+
   annotationStyle: (() ->
     top = @get('computedTop')
     left = @get('computedLeft')
     return "top: #{top}px; left: #{left}px;"
-  ).property('computedTop').property('computedLeft')
+  ).property('computedTop', 'computedLeft')
 
   isEditing: (() ->
     @get('edit')
@@ -50,4 +88,7 @@ App.AnnotationController = Ember.ObjectController.extend({
 
   willDestroy: ->
     $(window).off("resize.#{@ns()}")
+
+    image_controller = @get('controllers.image')
+    image_controller.off('canvasMouseMoved', @, @onCanvasMouseMoved)
 })

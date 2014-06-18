@@ -1,4 +1,6 @@
 App.HighlightController = Ember.ObjectController.extend({
+  needs: 'image'
+
   ns: ->
     guid = Math.random().toString(36).substring(7)
     @_namespace ||= "highlight_controller_#{guid}"
@@ -14,14 +16,55 @@ App.HighlightController = Ember.ObjectController.extend({
     , 100)
     @computeDimension()
 
+    image_controller = @get('controllers.image')
+    image_controller.on('canvasMouseMoved', @, @onCanvasMouseMoved)
+
   actions: {
     removeHighlight: ->
       model = @get('model')
       model.destroyRecord()
+
+    mouseDowned: (x, y) ->
+      @set('dragging', true)
+      @set('startDragX', x)
+      @set('startDragY', y)
+      @set('endDragX', x)
+      @set('endDragY', y)
+
+    mouseUpped: (x, y) ->
+      @set('dragging', false)
+      if @get('startDragX') != @get('endDragX') || @get('startDragY') != @get('endDragY')
+        @savePosition()
   }
 
   onWindowResize: ->
     @computeDimension()
+
+  onCanvasMouseMoved: (x, y) ->
+    if @get('dragging')
+      @set('endDragX', x)
+      @set('endDragY', y)
+      @updatePosition()
+    else
+      @set('origComputedTop', @get('computedTop'))
+      @set('origComputedLeft', @get('computedLeft'))
+      @set('startDragX', x)
+      @set('startDragY', y)
+
+  updatePosition: ->
+    top = @get('origComputedTop') + @get('endDragY') - @get('startDragY')
+    left = @get('origComputedLeft') + @get('endDragX') - @get('startDragX')
+    @set('computedTop', top)
+    @set('computedLeft', left)
+
+  savePosition: ->
+    top = @get('computedTop') / $('#canvas img').height()
+    left = @get('computedLeft') / $('#canvas img').width()
+
+    model = @get('model')
+    model.set('top', top)
+    model.set('left', left)
+    model.save()
 
   computeDimension: ->
     canvasHeight = $('#canvas img').height()
@@ -44,11 +87,11 @@ App.HighlightController = Ember.ObjectController.extend({
     height = @get('computedHeight')
 
     return "top: #{top}px; left: #{left}px; width: #{width}px; height: #{height}px;"
-  ).property('computedTop').
-    property('computedLeft').
-    property('computedWidth').
-    property('computedHeight')
+  ).property('computedTop', 'computedLeft', 'computedWidth', 'computedHeight')
 
   willDestroy: ->
     $(window).off("resize.#{@ns()}")
+
+    image_controller = @get('controllers.image')
+    image_controller.off('canvasMouseMoved', @, @onCanvasMouseMoved)
 })

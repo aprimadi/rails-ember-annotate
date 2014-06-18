@@ -5,6 +5,12 @@ class HighlightsController < ApplicationController
     render json: @highlight
   end
 
+  def update
+    @highlight = Highlight.find(params[:id])
+    @highlight.update!(highlight_params)
+    render json: @highlight
+  end
+
   def destroy
     @highlight = Highlight.find(params[:id])
     @highlight.destroy

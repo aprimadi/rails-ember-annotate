@@ -1,4 +1,4 @@
-App.ImageController = Ember.ObjectController.extend({
+App.ImageController = Ember.ObjectController.extend(Ember.Evented, {
   init: ->
     $(window).on('resize.image_controller', $.proxy(@onWindowResize, @))
     @computeCanvasHeight()
@@ -18,23 +18,33 @@ App.ImageController = Ember.ObjectController.extend({
         @set('toolmode', 'annotate')
 
     canvasClicked: (x, y) ->
-      if @get('toolmode') == 'highlight'
-        @set('startDragging', !@get('startDragging'))
-        if !@get('startDragging')
-          @addHighlight()
-        else
-          # Record coordinate
-          @set('startDragX', x)
-          @set('startDragY', y)
-          @set('endDragX', x)
-          @set('endDragY', y)
-      else if @get('toolmode') == 'annotate'
+      if @get('toolmode') == 'annotate'
         @addAnnotation(x, y)
+
+    canvasMouseDowned: ->
+      if @get('toolmode') == 'highlight'
+        @set('startDragging', true)
+        @set('endDragX', @get('startDragX'))
+        @set('endDragY', @get('startDragY'))
+      else
+        return false
+
+    canvasMouseUpped: ->
+      if @get('toolmode') == 'highlight'
+        @set('startDragging', false)
+        @addHighlight()
+      else
+        # TODO
 
     canvasMouseMoved: (x, y) ->
       if @get('startDragging')
         @set('endDragX', x)
         @set('endDragY', y)
+      else
+        @set('startDragX', x)
+        @set('startDragY', y)
+
+      @trigger('canvasMouseMoved', x, y)
 
   addAnnotation: (x, y) ->
     left = x / $('#canvas img').width()
@@ -97,10 +107,7 @@ App.ImageController = Ember.ObjectController.extend({
     width = Math.abs(@get('startDragX') - @get('endDragX'))
     height = Math.abs(@get('startDragY') - @get('endDragY'))
     return "top: #{top}px; left: #{left}px; width: #{width}px; height: #{height}px;"
-  ).property('startDragX').
-    property('startDragY').
-    property('endDragX').
-    property('endDragY')
+  ).property('startDragX', 'startDragY', 'endDragX', 'endDragY')
 
   inHighlightMode: (() ->
     @get('toolmode') == 'highlight'
