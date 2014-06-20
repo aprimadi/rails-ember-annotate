@@ -5,6 +5,7 @@
 #= require ember
 #= require ember-data
 #= require dropzone
+#= require jquery.autogrow
 #
 #= require_self
 #= require rails_ember_annotate

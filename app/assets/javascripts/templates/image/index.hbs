@@ -5,6 +5,7 @@
     {{#each annotations itemController="annotation" controllerName="annotations"}}
       {{#view App.Moveable}}
         {{#if isEditing}}
+          {{!edit-annotation class="annotation" style=annotationStyle value=text}}
           {{edit-annotation focus-out="acceptChanges" class="annotation" style=annotationStyle value=text}}
         {{else}}
           <div class="annotation" {{bind-attr style=annotationStyle}} {{action "editAnnotation" on="doubleClick"}}>{{text}}</div>

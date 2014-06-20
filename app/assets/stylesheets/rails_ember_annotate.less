@@ -62,13 +62,21 @@ body {
     max-height: 100%;
   }
 
+  textarea {
+    background: none;
+    resize: none;
+    width: 400px;
+  }
+
   .annotation {
     position: absolute;
+    white-space: pre-wrap;
     font-size: 18px;
     top: 0;
     left: 0;
     color: orange;
     z-index: 2;
+    max-width: 400px;
   }
 
   .highlight {
