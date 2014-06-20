@@ -7,6 +7,12 @@ App.EditAnnotationView = Ember.TextArea.extend({
 
   mouseMove: (e) ->
     this.$().autogrow()
+
+  mouseDown: (e) ->
+    e.stopPropagation()
+
+  mouseUp: (e) ->
+    e.stopPropagation()
 })
 
 Ember.Handlebars.helper('edit-annotation', App.EditAnnotationView)
